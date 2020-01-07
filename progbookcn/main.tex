@@ -1,0 +1,101 @@
+%!TEX program = xelatex
+
+\documentclass{progbookcn}
+\usepackage{wrapfig}
+\usepackage{enumerate}
+\usepackage{amsmath,mathrsfs,amsfonts}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{multirow,makecell}
+\usepackage{multicol}
+\usepackage{ulem} % \uline
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{fontawesome}
+\usepackage[open,openlevel=0,atend]{bookmark}
+\usepackage{varwidth}
+
+\usepackage{imakeidx}
+\makeindex[%
+  intoc=true,
+  columns=2,
+  columnsep=1cm,
+  columnseprule=true
+]
+
+\begin{document}
+
+\frontmatter
+
+%% title page
+\begin{titlepage}
+	\vspace*{25ex}
+	\hspace{0.05\textwidth}
+	\begin{minipage}{.9\textwidth}
+		\flushright
+		%%中文书名
+		{\zihao{1}\textbf{Linux 文件系统和GFS2}}
+		\rule{\linewidth}{.5pt}
+		\vspace{2ex}
+		%% 英文书名
+		{\zihao{2}\textsc{Linux Virtual File Switch \\ Global File System 2}} \\
+		\vspace{20ex}
+		%% 作者
+		{\zihao{4}\begin{varwidth}{5em}\textit{龚溪东} \\ \textit{湖南麒麟}\end{varwidth} 编著}
+	\end{minipage}
+	\vfill
+	\centering
+	{\zihao{4}长沙 $\bullet$ CHANGSHA}
+\end{titlepage}
+
+\thispagestyle{empty}
+
+%% 目录
+\clearpage
+{
+	\hypersetup{hidelinks}
+	\tableofcontents
+}
+
+\include{preface}
+\include{foreword}
+
+\mainmatter
+
+\part{Linux Virtual File Switch}
+
+\include{vfs-intro}
+\include{vfs-objs}
+
+\bookmarksetup{startatroot}
+
+%% 附录
+\appendix
+\cleardoublepage
+
+%% appendix chapter style
+\titleformat{\chapter}[display]
+{\bfseries}
+{\flushright\zihao{4}附录\thechapter}
+{1ex}
+{
+	\hrule width \hsize height .5pt
+	\vspace{-2ex}\flushright\zihao{2}
+}[\vspace{5ex}]
+
+\chapter{Angular CLI}
+
+\begin{lstlisting}[language=bash,style=shellstyle]
+  ng new appname --style scss --skip-install
+\end{lstlisting}
+
+\backmatter
+
+\cleardoublepage
+%% 索引
+\printindex
+%% 参考文献
+\bibliographystyle{plain}
+\end{document}

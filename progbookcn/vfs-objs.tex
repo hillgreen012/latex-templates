@@ -1,0 +1,47 @@
+\chapter{文件系统对象}
+\label{chapter:objects}
+
+Linux文件系统对象之间的关系可以概括为\mycodin{file_system_type}、\mycodin{super_block}、\mycodin{inode}、\mycodin{dentry}和\mycodin{vfsmount}之间的关系。文件系统类型规定了某种类型文件系统的行为，它存在的主要目的是为了构造这种类型文件系统的实例，或者被称为超级块实例。
+
+超级块反映了文件系统整体的控制信息，超级块以多种方式存在。对于基于磁盘的文件系统，它以特定格式存在于磁盘的固定区域（取决于文件系统类型），为磁盘上的超级块。在文件系统被装载时，其内容被读入内存，构建内存中的超级块。其中某些信息为各种类型的文件系统所共有，被提炼成VFS的超级块结构。如果某些文件系统不具有磁盘上超级块和内存中超级块形式，则它们必须负责从零构造出VFS的超级块。
+
+inode反映了某个文件系统对象的一般元信息，dentry反映了某个文件系统对象在文件系统树中的位置。同超级块一样，\mycodin{inode}和\mycodin{dentry}也有磁盘上、内存中以及VFS三种形式，其中VFS \mycodin{inode}和VFS \mycodin{dentry}是被提炼出来，为各种类型文件系统共有的，而磁盘上、内存中\mycodin{inode}和\mycodin{dentry}则为具体文件系统特有，根据实际情况，也可能根本不需要。
+
+Linux有一棵全局文件系统树，反映了Linux VFS对象之间的关系（如图 \ref{fig:vfs-objs} 所示）。文件系统要被用户空间使用，必须先装载到这棵树上。每一次装载被称为一个装载实例，某些文件系统只在内核中使用，也需要这样一个装载实例。每个文件系统装载实例有四个必备元素：vfsmount、超级块、根inode和根dentry。
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.4\textwidth]{vfs-objects.png}
+	\caption{Linux VFS 对象之间的关系}
+	\label{fig:vfs-objs}
+\end{figure}
+
+需要强调一下文件系统类型、超级块实例以及装载实例之间的关系。一个文件系统类型可能有多个超级块实例，而每个超级块实例又可以有多个装载实例。
+
+设想分区\mypath{/dev/sda1}和\mypath{/dev/sda2}都被格式化为Minix文件系统类型。当\mypath{/dev/sda1}和\mypath{/dev/sda2}上的文件系统实例先后被装载到系统中时，假设在\mypath{/mnt/d10}和\mypath{/mnt/d2}下，则会有两个超级块实例，分别对应一个装载实例。透过\mypath{/mnt/d10}和\mypath{/mnt/d2}所作的改动（例如创建文件）分别反映到\mypath{/dev/sda1}和\mypath{/dev/sda2}上的文件系统实例中。
+
+然后，\mypath{/dev/sda1}再次被装载到\mypath{/mnt/d11}下，则依然还是两个超级块实例，但是\mypath{/dev/sda1}对应的超级块实例将对应两个装载实例，一个对应在\mypath{/mnt/d10}上的装载，另一个对应在\mypath{/mnt/d11}上的装载。透过\mypath{/mnt/d10}和\mypath{/mnt/d11}所做的改动（例如创建文件）都会被反映到\mypath{/dev/sda1}上的文件系统实例中。
+
+\section{file\_system\_type文件系统类型}
+
+Linux支持多种文件系统，每种文件系统对应一个文件系统类型 \mycodin{file_system_type} 结构（其结构中的域如表8-1所示）。不论是编译到内核，还是作为模块动态装载，文件系统类型需要调用 \mycodin{register_filesystem} 向VFS核心进行注册。如果该文件系统类型不再使用，应该调用 \mycodin{unregister_filesystem} 从VFS核心中注销。上述两个函数都在文件 \mypath{fs/filesystems.c} 实现。
+
+\begin{mylangC}{struct file\_system\_type}
+	struct file_system_type {
+	const char *name;
+	int fs_flags;
+	int (*get_sb)(struct file_system_type *, int, const char *, void *, struct vfsmount *);
+	void (*kill_sb)(struct super_block *);
+	struct module *owner;
+	struct file_system_type *next;
+	struct list_head fs_supers;
+
+	struct lock_class_key s_lock_key;
+	struct lock_class_key s_umount_key;
+
+	struct lock_class_key i_lock_key;
+	struct lock_class_key i_mutex_key;
+	struct lock_class_key i_mutex_dir_key;
+	struct lock_class_key i_alloc_sem_key;
+	};
+\end{mylangC}

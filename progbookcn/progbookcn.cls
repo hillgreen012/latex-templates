@@ -6,7 +6,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{progbookcn}[Jun, 2018 Yet Another LaTeX Template for Programming or Technical Books]
-\LoadClass[a4paper,twoside]{ctexbook}
+\LoadClass[a4paper,twoside,UTF8]{ctexbook}
 
 \RequirePackage{xunicode}
 \RequirePackage{color,xcolor}
@@ -18,11 +18,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{hyperref}
 \hypersetup{
-  bookmarksnumbered,
-  colorlinks,
-  linkcolor={black},
-  citecolor={black},
-  urlcolor={black}
+	bookmarksnumbered,
+	colorlinks=true,
+	% linkcolor={red},
+	% citecolor={green},
+	% urlcolor={magenta},
+	% anchorcolor={black},
+	breaklinks=true
 }
 
 
@@ -42,19 +44,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{geometry}
 \geometry{
-  textwidth=138mm,
-  textheight=215mm,
-  %% left=27mm,
-  %% or
-  inner=23mm,
-  %% right=27mm,
-  %% or
-  outer=18mm,
-  top=25.4mm, bottom=25.4mm,
-  headheight=2.17cm,
-  headsep=4mm,
-  footskip=12mm,
-  heightrounded,
+	textwidth=138mm,
+	textheight=215mm,
+	%% left=27mm,
+	%% or
+	inner=23mm,
+	%% right=27mm,
+	%% or
+	outer=18mm,
+	top=25.4mm, bottom=25.4mm,
+	headheight=2.17cm,
+	headsep=4mm,
+	footskip=12mm,
+	heightrounded,
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,7 +106,7 @@
 \RequirePackage[clearempty]{titlesec}
 \RequirePackage{zhnumber}
 
-%% Define a HUGE 
+%% Define a HUGE
 \newcommand\HUGE{\@setfontsize\Huge{48}{60}}
 
 %% part
@@ -112,10 +114,10 @@
 [display] % shape
 {\bfseries} % format
 {
-  \parbox[t]{7em}{\textcolor{gray}{\HUGE \textit{PART~\thepart}}} \hfill \zihao{4}第{\zhnum{part}}部分
-  %\rule[3ex]{\textwidth}{.5pt}
-  \vspace{1ex}
-  \hrule width \hsize height .5pt
+\parbox[t]{7em}{\textcolor{gray}{\HUGE \textit{PART~\thepart}}} \hfill \zihao{4}第{\zhnum{part}}部分
+%\rule[3ex]{\textwidth}{.5pt}
+\vspace{1ex}
+\hrule width \hsize height .5pt
 } % label
 {1pt} % sep
 {\vspace{-7ex}\flushright\zihao{2}} % before-code
@@ -126,15 +128,15 @@
 [display] % shape
 {\bfseries} % format
 {
-  \flushright\zihao{4}第\zhnum{chapter}章
+	\flushright\zihao{4}第\zhnum{chapter}章
 } % label
 {1ex} % sep
 {
-  \hrule width \hsize height .5pt
-  \vspace{-2ex}\flushright\zihao{2}
+	\hrule width \hsize height .5pt
+	\vspace{-2ex}\flushright\zihao{2}
 } % before-code
 [
-\vspace{5ex}
+	\vspace{5ex}
 ] % after-code
 
 
@@ -189,79 +191,104 @@
 \definecolor{codecolortypes}{rgb}{0.17,0.57,0.68}
 
 \lstdefinelanguage{JavaScript}{
-  keywords={do, if, in, for, let, new, try, var, case, else, enum, eval, null, this, true, void, with, await, break, catch, class, const, false, super, throw, while, yield, delete, export, import, public, return, static, switch, typeof, default, extends, finally, package, private, continue, debugger, function, arguments, interface, protected, implements, instanceof},
-  sensitive=true,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  morestring=[b]',
-  morestring=[b]"
+	keywords={do, if, in, for, let, new, try, var, case, else, enum, eval, null, this, true, void, with, await, break, catch, class, const, false, super, throw, while, yield, delete, export, import, public, return, static, switch, typeof, default, extends, finally, package, private, continue, debugger, function, arguments, interface, protected, implements, instanceof},
+	sensitive=true,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]',
+	morestring=[b]",
+	tabsize=4
 }
 
 \lstdefinelanguage{TypeScript}{
-  keywords={abstract, break, case, catch, class, const, continue, debugger, default, delete, do, else, enum, export, extends, false, finally, for, function, if, import, in, instanceof, new, null, return, super, switch, this, throw, true, try, typeof, var, void, while, with, as, implements, interface, let, package, private, protected, public, static, yield, any, boolean, constructor, declare, get, module, require, number, set, string, symbol, type, from, of},
-  sensitive=true,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  morestring=[b]',
-  morestring=[b]"
+	keywords={abstract, break, case, catch, class, const, continue, debugger, default, delete, do, else, enum, export, extends, false, finally, for, function, if, import, in, instanceof, new, null, return, super, switch, this, throw, true, try, typeof, var, void, while, with, as, implements, interface, let, package, private, protected, public, static, yield, any, boolean, constructor, declare, get, module, require, number, set, string, symbol, type, from, of},
+	sensitive=true,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]',
+	morestring=[b]",
+	tabsize=4
 }
 
 \lstdefinelanguage{golang}{
-  keywords={break, default, func, interface, select, case, defer, go, map, struct, chan, else, goto, package, switch, const, fallthrough, if, range, type, continue, for, import, return, var},
-  sensitive=true,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  morestring=[b]',
-  morestring=[b]"
+	keywords={break, default, func, interface, select, case, defer, go, map, struct, chan, else, goto, package, switch, const, fallthrough, if, range, type, continue, for, import, return, var},
+	sensitive=true,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]',
+	morestring=[b]",
+	tabsize=4
 }
 
+\lstdefinelanguage[gnu]{C}[ANSI]{C}{
+	% language=[ANSI]C,
+	morekeywords={__attribute__, __aligned__, __section__, asm, __asm__, __volatile__, __inline__, likely, unlikely, __packed},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+	morestring=[d]',
+	tabsize=8
+}%[]
+
 \lstdefinestyle{mystyle}{
-  % Basic design
-  basicstyle=\ttfamily,
-  frame=tb,
-  %framesep=5pt,
-  framerule=.5pt,
-  rulecolor=\color{violet},
-  abovecaptionskip=0pt,
-  belowcaptionskip=5pt,
-  % Code design
-  keywordstyle=\color{codecolorkeywords},
-  commentstyle=\color{codecolorcomments},
-  stringstyle=\color{codecolorstrings},
-  numberstyle=\small\color{gray},
-  breakatwhitespace=false,
-  breaklines=true,
-  captionpos=t,
-  keepspaces=true,
-  % Line numbers
-  numbers=left,
-  numbersep=10pt,
-  %xleftmargin=.5em,
-  stepnumber=1,
-  firstnumber=1,
-  numberfirstline=true,
-  % Code
-  tabsize=4,
-  showspaces=false,
-  showstringspaces=false,
-  showtabs=false,
-  breaklines=true,
+	% Basic design
+	basicstyle=\ttfamily\small,
+	%framexleftmargin=5mm,
+	%frame=shadowbox,
+	%rulesepcolor=\color{lightgray},
+	frameround=tttt,
+	xleftmargin=1.5em,
+	frame=trbl,
+	lineskip=-2pt,
+	%framesep=5pt,
+	framerule=.5pt,
+	rulecolor=\color{violet},
+	abovecaptionskip=0pt,
+	belowcaptionskip=5pt,
+	% Code design
+	keywordstyle=\color{codecolorkeywords},
+	commentstyle=\color{codecolorcomments},
+	stringstyle=\color{codecolorstrings},
+	numberstyle=\footnotesize\color{gray},
+	breakatwhitespace=true,
+	breaklines=true,
+	breakindent=0pt,	% default: 20pt
+	breakautoindent=true,
+	captionpos=t,
+	keepspaces=true,
+	% Line numbers
+	numbers=left,
+	numbersep=5pt,
+	%xleftmargin=.5em,
+	stepnumber=1,
+	firstnumber=1,
+	numberfirstline=true,
+	% Code
+	% tabsize=4,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
 }
 \lstset{style=mystyle}
 
 
 \lstdefinestyle{shellstyle}{
-  numbers=none
+	numbers=none
 }
 
-
+\RequirePackage{xspace}
+\lstnewenvironment{mylangC}[1]{\lstset{language={[gnu]C},caption={#1}}}{}
+\RequirePackage{fancyvrb}
+\newcommand\mycodin[1]{~{\lstset{basicstyle=\ttfamily\color{brown}\normalsize,breaklines=true,breakatwhitespace=false,breakautoindent=false}\lstinline!#1!}~}
+\newcommand\mypath[1]{~{\upshape\color{teal}\path{#1}}~}
 %% 代码列表标题
 \RequirePackage{caption}
 \DeclareCaptionFormat{codecaptionformat}{%
-  %%\colorbox{black!20}{
-  %%  \parbox{\textwidth}{#1#2\ttfamily#3}
-  %%}
-  \parbox{\textwidth}{\faCode #1#2\hspace{.5em}#3}
+	%%\colorbox{black!20}{
+	%%  \parbox{\textwidth}{#1#2\ttfamily#3}
+	%%}
+	\parbox{\textwidth}{\faCode #1#2\hspace{.5em}#3}
 }
 \captionsetup[lstlisting]{format=codecaptionformat}
 
@@ -275,87 +302,87 @@
 
 %% 带标题的文本框
 \newtcolorbox{titledbox}[1]{%
-  tikznode boxed title,
-  enhanced,
-  arc=3pt,
-  interior style={white},
-  attach boxed title to top center = {yshift=-\tcboxedtitleheight/2},
-  fonttitle=\normalfont,
-  colbacktitle=white,coltitle=black,
-  boxed title style={size=normal,colframe=white,boxrule=0pt},
-  boxrule=.5pt,
-  left=0pt, right=0pt, top=2pt, bottom=0pt,
-  boxsep=10pt,
-  colframe=violet,
-  title={#1}
+	tikznode boxed title,
+	enhanced,
+	arc=3pt,
+	interior style={white},
+	attach boxed title to top center = {yshift=-\tcboxedtitleheight/2},
+	fonttitle=\normalfont,
+	colbacktitle=white,coltitle=black,
+	boxed title style={size=normal,colframe=white,boxrule=0pt},
+	boxrule=.5pt,
+	left=0pt, right=0pt, top=2pt, bottom=0pt,
+	boxsep=10pt,
+	colframe=violet,
+	title={#1}
 }
 
 %% 信息
 \newtcolorbox{information}{%
-  enhanced,
-  arc=3pt,
-  interior style={white},
-  boxrule=.5pt,
-  left=40pt, right=0pt, top=2pt, bottom=0pt,
-  boxsep=10pt,
-  colframe=violet,
-  overlay={
-    \node[anchor=north west,outer sep=10pt] at (frame.north west)
-    {
-      \zihao{2}\faInfoCircle
-    };
-  }
+	enhanced,
+	arc=3pt,
+	interior style={white},
+	boxrule=.5pt,
+	left=40pt, right=0pt, top=2pt, bottom=0pt,
+	boxsep=10pt,
+	colframe=violet,
+	overlay={
+			\node[anchor=north west,outer sep=10pt] at (frame.north west)
+			{
+				\zihao{2}\faInfoCircle
+			};
+		}
 }
 
 %% 关键点
 \newtcolorbox{keypoint}{%
-  enhanced,
-  arc=3pt,
-  interior style={white},
-  boxrule=.5pt,
-  left=40pt, right=0pt, top=2pt, bottom=0pt,
-  boxsep=10pt,
-  colframe=violet,
-  overlay={
-    \node[anchor=north west,outer sep=10pt] at (frame.north west)
-    {
-      \zihao{2}\faKey
-    };
-  }
+	enhanced,
+	arc=3pt,
+	interior style={white},
+	boxrule=.5pt,
+	left=40pt, right=0pt, top=2pt, bottom=0pt,
+	boxsep=10pt,
+	colframe=violet,
+	overlay={
+			\node[anchor=north west,outer sep=10pt] at (frame.north west)
+			{
+				\zihao{2}\faKey
+			};
+		}
 }
 
 %% 警告信息
 \newtcolorbox{exclamation}{%
-  enhanced,
-  arc=3pt,
-  interior style={white},
-  boxrule=.5pt,
-  left=40pt, right=0pt, top=2pt, bottom=0pt,
-  boxsep=10pt,
-  colframe=violet,
-  overlay={
-    \node[anchor=north west,outer sep=10pt] at (frame.north west)
-    {
-      \zihao{2}\faExclamationTriangle
-    };
-  }
+	enhanced,
+	arc=3pt,
+	interior style={white},
+	boxrule=.5pt,
+	left=40pt, right=0pt, top=2pt, bottom=0pt,
+	boxsep=10pt,
+	colframe=violet,
+	overlay={
+			\node[anchor=north west,outer sep=10pt] at (frame.north west)
+			{
+				\zihao{2}\faExclamationTriangle
+			};
+		}
 }
 
 %% 问题信息
 \newtcolorbox{question}{%
-  enhanced,
-  arc=3pt,
-  interior style={white},
-  boxrule=.5pt,
-  left=40pt, right=0pt, top=2pt, bottom=0pt,
-  boxsep=10pt,
-  colframe=violet,
-  overlay={
-    \node[anchor=north west,outer sep=10pt] at (frame.north west)
-    {
-      \zihao{2}\faQuestionCircle
-    };
-  }
+	enhanced,
+	arc=3pt,
+	interior style={white},
+	boxrule=.5pt,
+	left=40pt, right=0pt, top=2pt, bottom=0pt,
+	boxsep=10pt,
+	colframe=violet,
+	overlay={
+			\node[anchor=north west,outer sep=10pt] at (frame.north west)
+			{
+				\zihao{2}\faQuestionCircle
+			};
+		}
 }
 
 
